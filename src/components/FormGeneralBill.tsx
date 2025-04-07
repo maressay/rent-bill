@@ -5,6 +5,12 @@ import { TextInput } from "react-native-paper";
 import { ElectricityForm, InvoiceForm } from "../types/forms";
 import { RootStackParamList } from "../navigation/types";
 import { Picker } from "@react-native-picker/picker";
+import { generateBillPDFHtml } from "../util/Bill";
+
+// Generate pdf
+
+import { printToFileAsync } from 'expo-print'
+import { shareAsync } from 'expo-sharing'
 
 type Props = NativeStackScreenProps<RootStackParamList,'Boletas'>
 
@@ -65,7 +71,7 @@ export default function FormGeneralBill({ navigation, route } : Props) {
         })
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
 
         if (!formData) {
             return console.log('FormDataVacio')
@@ -73,6 +79,25 @@ export default function FormGeneralBill({ navigation, route } : Props) {
 
         console.log('FormData', formData)
         console.log('ElectricityForm', electricityFeeData)
+
+        // save data
+        // generatePDF for sharing
+        const htmlContent = generateBillPDFHtml(formData, electricityFeeData)
+        
+        try {
+            const file = await printToFileAsync({
+                html: htmlContent,
+                base64: false
+            })
+
+            await shareAsync(file.uri)
+        } catch (err) {
+            console.log(err)
+            alert("Hubo un error al crear el archivo PDF, pero este si se registro, dirigase al historial de facturas del cuarto para volver a generarlo (incoming...)")
+        }
+
+
+
     }
 
     useEffect(() => {
