@@ -139,7 +139,7 @@ export default function FormElectricityFee({ navigation, route } : Props ) {
             <Picker
                 selectedValue={electricityFeeData.electricityActualMonth}
                 onValueChange={(itemValue) => {
-                    handleChange('electricityActualMonth', itemValue)
+                    handleChange('electricityAgoMonth', itemValue)
                 }}
             >
                 {
@@ -163,7 +163,7 @@ export default function FormElectricityFee({ navigation, route } : Props ) {
             <Picker
                 selectedValue={electricityFeeData.electricityAgoMonth}
                 onValueChange={(itemValue) => {
-                    handleChange('electricityAgoMonth', itemValue)
+                    handleChange('electricityActualMonth', itemValue)
                 }}
             >
                 {
