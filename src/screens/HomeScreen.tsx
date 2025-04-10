@@ -1,6 +1,6 @@
 import { Pressable, Text, View } from "react-native";
 
-export default function HomeScreen({navigation} : any) {
+export default function HomeScreen({ navigation }: any) {
 
     return (
         <>

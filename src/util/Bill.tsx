@@ -14,7 +14,7 @@ export const generateBillPDFHtml = ( invoice : InvoiceForm, electricity : Electr
         waterFee
     } = invoice
 
-    const total = Number(apartmentNumber) + Number(cableFee) + Number(electricityFee) + Number(internetFee)
+    const total = Number(apartmentRent) + Number(cableFee) + Number(cleaningFee) + Number(electricityFee) + Number(internetFee) + Number(waterFee)
 
     const {
         consumeActualMonth,
@@ -60,6 +60,7 @@ export const generateBillPDFHtml = ( invoice : InvoiceForm, electricity : Electr
             padding: 2rem;
             margin-bottom: 5rem;
             border-radius: 10px;
+            height: 80vh;
         }
 
         .principal-title {
@@ -67,19 +68,19 @@ export const generateBillPDFHtml = ( invoice : InvoiceForm, electricity : Electr
         }
 
         .subtitle {
-            width: 400px;
+            width: 600px;
             margin: 10px auto;
             text-align: right;
             font-weight: bold;
         }
 
         .info-container {
-            width: 400px;
+            width: 600px;
             margin: 10px auto;
         }
 
         .payment-info {
-            width: 400px;
+            width: 600px;
             margin: 10px auto;
         }
 
@@ -129,7 +130,7 @@ export const generateBillPDFHtml = ( invoice : InvoiceForm, electricity : Electr
                         </tr>
                         <tr>
                             <td>Luz</td>
-                            <td class="cell-center">${electricityFee}</td>
+                            <td class="cell-center">S/.${electricityFee}</td>
                         </tr>
                         <tr>
                             <td>Limpieza</td>
@@ -150,7 +151,7 @@ export const generateBillPDFHtml = ( invoice : InvoiceForm, electricity : Electr
                     <tbody>
                         <tr>
                             <td>${electricityActualMonth}</td>
-                            <td class="cell-center">S./${consumeActualMonth} kW</td>
+                            <td class="cell-center">${consumeActualMonth} kW</td>
                         </tr>
                         <tr>
                             <td>${electricityAgoMonth}</td>
