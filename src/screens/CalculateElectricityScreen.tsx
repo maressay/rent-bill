@@ -1,5 +1,5 @@
 import { useState } from "react";
-import FormElectricityFee from "../components/FormElectricityFee";
+import FormElectricityFee from "../components/CalculateElectricityForm";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/types";
 import { ElectricityForm } from "../types/forms";
@@ -16,5 +16,4 @@ export default function CalculateElectricityFree({ navigation, route }: Props) {
             </PaperProvider>
         </>
     )
-
 }

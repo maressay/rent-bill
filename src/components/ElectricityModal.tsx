@@ -3,7 +3,7 @@ import { Modal, Portal } from "react-native-paper";
 import CustomButton from "./CustomButton";
 import { ElectricityForm } from "../types/forms";
 import { useEffect } from "react";
-import ElectricityCalculeDetail from "./ElectricityCalculeDetail";
+import ElectricityCalculeDetail from "./CalculateElectricityDetail";
 
 type Props = {
    visible: boolean;
@@ -20,7 +20,7 @@ export default function ElectricityModal({ visible, onClose, onSubmit, data } : 
         <>
             <Portal>
                 <Modal visible={visible} onDismiss={onClose} contentContainerStyle={styles.modalContainer}>
-                    <Text style={styles.title}>Detalle del calculo de la Electricidad</Text>
+                    <Text style={styles.title}>Detalle del Calculo</Text>
                         <ElectricityCalculeDetail data={data}/>
                     <View>
                         <CustomButton
@@ -55,5 +55,6 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 16,
+        fontWeight: "bold"
     }
 })

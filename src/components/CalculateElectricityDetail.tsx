@@ -79,12 +79,12 @@ export default function ElectricityCalculeDetail( { data } : Props) {
 
 const styles = StyleSheet.create({
     tableContainer: {
-        backgroundColor: "#53d4ff",
-        borderRadius: 10,
         marginVertical: 10,
     },
     row: {
-        marginHorizontal: 10
+        marginHorizontal: 15,
+        borderBottomWidth: 2,
+        borderColor: "#0194fe"
     },
     cell_1: {
         justifyContent: 'flex-end',

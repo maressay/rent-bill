@@ -221,7 +221,7 @@ export default function FormGeneralBill({ navigation, route }: Props) {
                             })
                         }}
                     >
-                        <Text style={styles.primaryText}>Calcular Costo por la Electricidad</Text>
+                        <Text style={styles.primaryButtonText}>Calcular Costo por la Electricidad</Text>
                     </Pressable>
 
                     <TextInput
@@ -234,7 +234,7 @@ export default function FormGeneralBill({ navigation, route }: Props) {
                     />
 
                     <Pressable onPress={handleSubmit} style={[styles.primaryButton, styles.lastElement]}>
-                        <Text style={styles.primaryText}>Generar Boleta</Text>
+                        <Text style={styles.primaryButtonText}>Generar Boleta</Text>
                     </Pressable>
                 </View>
             </ScrollView>
@@ -252,19 +252,18 @@ const styles = StyleSheet.create({
     },
     label: {
         marginHorizontal: 20,
-
     },
     primaryButton: {
         marginHorizontal: 20,
-        backgroundColor: "#CDDFED",
+        backgroundColor: "#0194fe",
         padding: 10,
         borderRadius: 5,
         display: "flex",
         alignItems: "center"
     }
-    ,primaryText: {
+    ,primaryButtonText: {
         fontWeight: "bold",
-        color: "#003366"
+        color: "#fff"
     },
     lastElement: {
         marginBottom: 70
