@@ -20,7 +20,10 @@ export type ElectricityForm = {
     priceElectricity: string;
 }
 
+// Database
+
 export type Invoice = {
+    id?: number | null;
     customer_name?: string | null;
     lote: string;
     apartment_number?: number | null;
@@ -30,6 +33,17 @@ export type Invoice = {
     cable_fee?: number | null;
     internet_fee?: number | null;
     cleaning_fee?: number | null;
+    created_at?: string | null;
 };
 
+export type ElectricityFeeDetail = {
+    id?: number | null;
+    fk_invoice: number;
+    month: string | null;
+    current_value: number | null;
+    month_ago: string | null;
+    last_value: number | null;
+    kwh_price: number | null;
+    created_at?: string | null;
+};
 

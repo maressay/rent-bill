@@ -12,6 +12,10 @@ import { generateBillPDFHtml } from "../util/Bill";
 import { printToFileAsync } from 'expo-print'
 import { shareAsync } from 'expo-sharing'
 
+// DB
+
+import { createInvoice } from '../supabase/db'
+
 type Props = NativeStackScreenProps<RootStackParamList, 'Boletas'>
 
 type Lotes = {
@@ -79,7 +83,7 @@ export default function FormGeneralBill({ navigation, route }: Props) {
 
         console.log('FormData', formData)
         console.log('ElectricityForm', electricityFeeData)
-
+        createInvoice(formData, electricityFeeData)
         // save data
         // generatePDF for sharing
         const htmlContent = generateBillPDFHtml(formData, electricityFeeData)
