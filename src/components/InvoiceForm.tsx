@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import { TextInput } from "react-native-paper";
+import { Snackbar, TextInput } from "react-native-paper";
 import { ElectricityForm, InvoiceForm } from "../types/forms";
 import { RootStackParamList } from "../navigation/types";
 import { Picker } from "@react-native-picker/picker";
@@ -14,7 +14,7 @@ import { shareAsync } from 'expo-sharing'
 
 // DB
 
-import { createInvoice } from '../supabase/db'
+import { createInvoice, getAllLotes } from '../supabase/db'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Boletas'>
 
@@ -27,12 +27,40 @@ export default function FormGeneralBill({ navigation, route }: Props) {
 
     const [selectedLotes, setSelectedLotes] = useState<string>('')
     const [selectedApartment, setSelectedApartment] = useState<string>('')
+    const [success, setSuccess] = useState<boolean>(false)
+    const [visibleSnackBar, setVisibleSnackBar] = useState<boolean>(false)
 
-    const lotes: Lotes[] = [
-        { label: 'Selecciona un lote', value: '' },
-        { label: 'D17', value: 'D17' },
-        { label: 'A17', value: 'A17' },
-    ]
+    const onToggleSnackBar = () => setVisibleSnackBar(!visibleSnackBar)
+    const onDismissSnackBar = () => setVisibleSnackBar(false)
+
+    // const lotes: Lotes[] = [
+        // { label: 'Selecciona un lote', value: '' },
+        // { label: 'D17', value: 'D17' },
+        // { label: 'A17', value: 'A17' },
+    // ]
+
+    const [lotes, setLotes] = useState<Lotes[]>([]);
+
+    useEffect(() => {
+        getAllLotes()
+            .then((res) => {
+                if (res !== 400) {
+                    const lotes = res?.map((lote) => ({
+                        key: lote.lote,
+                        label: lote.lote,
+                        value: lote.lote,
+                    }));
+                    setLotes(lotes || []);
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching lote:", error);
+                setLotes([]);
+            });
+        
+        console.log(lotes)
+    }, []);
+
 
     const apartmentsNumbers: Lotes[] =
         selectedLotes === '' ? [{ label: 'Seleccionar primero un lote', value: '' }] :
@@ -81,12 +109,23 @@ export default function FormGeneralBill({ navigation, route }: Props) {
             return console.log('FormDataVacio')
         }
 
-        console.log('FormData', formData)
-        console.log('ElectricityForm', electricityFeeData)
-        createInvoice(formData, electricityFeeData)
+        const result = await createInvoice(formData, electricityFeeData)
+
+        if (result === 200) {
+            setVisibleSnackBar(true)
+            setSuccess(true)
+        } else {
+            setVisibleSnackBar(true)
+            setSuccess(false)
+            return
+        }
+
+
         // save data
         // generatePDF for sharing
         const htmlContent = generateBillPDFHtml(formData, electricityFeeData)
+
+        // implement logic for show snackbar
 
         try {
             const file = await printToFileAsync({
@@ -99,9 +138,6 @@ export default function FormGeneralBill({ navigation, route }: Props) {
             console.log(err)
             alert("Hubo un error al crear el archivo PDF, pero este si se registro, dirigase al historial de facturas del cuarto para volver a generarlo (incoming...)")
         }
-
-
-
     }
 
     useEffect(() => {
@@ -137,6 +173,20 @@ export default function FormGeneralBill({ navigation, route }: Props) {
 
     return (
         <>
+            <View style={{ position: "absolute", bottom: 40, left: 0, right: 0, zIndex: 100}}>
+                <Snackbar
+                    visible={visibleSnackBar}
+                    onDismiss={onDismissSnackBar}
+                    action={{
+                        label: 'Cerrar',
+                        onPress: () => {
+                            onDismissSnackBar()
+                        },
+                    }}
+                >
+                    { success ? 'Boleta generada correctamente' : 'Error al generar la boleta'}
+                </Snackbar>
+            </View>
             <ScrollView>
                 <Text style={styles.label}>Seleccionar lote</Text>
                 <Picker

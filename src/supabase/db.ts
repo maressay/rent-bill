@@ -30,7 +30,7 @@ export const createInvoice = async (invoiceForm: InvoiceForm, electricityForm: E
             fk_invoice: id,
             current_value: Number(electricityForm.consumeActualMonth),
             kwh_price: Number(electricityForm.kilowattPrice),
-            last_value: Number(electricityForm.electricityAgoMonth),
+            last_value: Number(electricityForm.consumeAgoMonth),
             month: electricityForm.electricityActualMonth,
             month_ago: electricityForm.electricityAgoMonth
         }
@@ -45,5 +45,22 @@ export const createInvoice = async (invoiceForm: InvoiceForm, electricityForm: E
         }
 
     }
+
+}
+
+export const getAllLotes = async () => {
+    console.log("Fetching all lotes")
+    const lotesResult = await supabase.from('lote').select('*')
+
+    if (lotesResult.error) {
+        console.log('Error fetching "lote" data', lotesResult.error)
+        return 400
+    }
+
+    if (lotesResult.data && lotesResult.status == 200) {
+        console.log(lotesResult.data)
+        return lotesResult.data
+    }
+
 
 }
